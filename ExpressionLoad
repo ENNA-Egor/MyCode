@@ -1,0 +1,53 @@
+// DIALOG
+// ======
+var dialog = new Window("palette"); 
+    dialog.text = "Exp  Load"; 
+    dialog.orientation = "column"; 
+    dialog.alignChildren = ["center","top"]; 
+    dialog.spacing = 10; 
+    dialog.margins = 16; 
+
+// GROUP1
+// ======
+var group1 = dialog.add("group", undefined, {name: "group1"}); 
+    group1.orientation = "row"; 
+    group1.alignChildren = ["center","center"]; 
+    group1.spacing = 32; 
+    group1.margins = 0; 
+
+var statictext1 = group1.add("statictext", undefined, undefined, {name: "statictext1"}); 
+    statictext1.text = "Shift"; 
+    statictext1.preferredSize.width = 48; 
+    statictext1.alignment = ["center","center"]; 
+
+var edittext1 = group1.add('edittext {properties: {name: "edittext1"}}'); 
+    edittext1.text = "4"; 
+    edittext1.preferredSize.width = 38; 
+    edittext1.alignment = ["center","center"]; 
+
+// DIALOG
+// ======
+var button1 = dialog.add("button", undefined, undefined, {name: "button1"}); 
+    button1.text = "Load"; 
+    button1.preferredSize.width = 82; 
+    button1.alignment = ["center","top"]; 
+
+
+
+button1.onClick= function(){
+var expr ="sh =6*i*thisComp.frameDuration;\r\n ofsetX= thisLayer.transform.position.valueAtTime(0)[0]-thisComp.layer(\"Shape Layer 1\").transform.position.valueAtTime(0)[0];\r\n ofsetY= thisLayer.transform.position.valueAtTime(0)[1]-thisComp.layer(\"Shape Layer 1\").transform.position.valueAtTime(0)[1];\r\nx= thisComp.layer(\"Shape Layer 1\").transform.position.valueAtTime(time-sh)[0];\r\ny=thisComp.layer(\"Shape Layer 1\").transform.position.valueAtTime(time-sh)[1];\r\n[(x+ofsetX),(y+ofsetY)]"
+var a = expr.slice(0,4);
+var b = expr.slice(5,6);
+var c = expr.slice(7);
+var shf = edittext1.text; 
+ var newComp = app.project.activeItem;
+ var layer = newComp. selectedLayers;
+ var layers = layer.length;
+ 
+ for (var i =0;i<layers; i++) {
+     var n=i+1;
+     var exprFin = a+shf+b+n+c;
+ layer [i].property("ADBE Transform Group").property("ADBE Position").expression =exprFin; 
+ }      
+}
+dialog.show();
